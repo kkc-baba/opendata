@@ -84,12 +84,22 @@ jobs:
         run: |
           git config --global user.name "geolonia-bot"
           git config --global user.email "geolonia-bot@users.noreply.github.com"
-          git checkout $GITHUB_HEAD_REF; \
-          npm run build-readme; \
-          if ! git diff --quiet README.md; then \
-            git add README.md; \
-            git commit -m "Update README By GitHub Actions"; \
-            git push -f; \
+          
+          git fetch origin $GITHUB_HEAD_REF
+          git checkout $GITHUB_HEAD_REF
+          git pull origin $GITHUB_HEAD_REF
+          npm run build-readme
+          if ! git diff --quiet README.md; then
+          git add README.md
+          git commit -m "Update README By GitHub Actions"
+          git push origin $GITHUB_HEAD_REF
+          
+          #git checkout $GITHUB_HEAD_REF; \
+          #npm run build-readme; \
+          #if ! git diff --quiet README.md; then \
+          #  git add README.md; \
+          #  git commit -m "Update README By GitHub Actions"; \
+          #  git push -f; \
           fi
 
       - uses: actions/upload-artifact@v3
